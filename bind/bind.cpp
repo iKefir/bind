@@ -6,6 +6,12 @@ using std::cout;
 using std::endl;
 
 int make_arithmetics(int a, int b, int c, int d, int e) {
+    a = b = c = 0;
+    return a + b - c / d * e;
+}
+
+int make_arithmetics_link(int& a, int& b, int& c, int& d, int& e) {
+    a = b = c = 0;
     return a + b - c / d * e;
 }
 
@@ -25,9 +31,18 @@ int main() {
     
     cout << my_bind_3(4, 5) << " " << st_bind_3(4, 5) << endl;
     
-    auto my_bind_4 = bind(my_bind_2, 1, 2);
-    auto st_bind_4 = std::bind(st_bind_2, 1, 2);
+    auto my_bind_4 = bind(my_bind_2, 4, 5);
+    auto st_bind_4 = std::bind(st_bind_2, 4, 5);
     
     cout << my_bind_4() << " " << st_bind_4() << endl;
+    
+    int a = 1, b = 2, c = 3;
+    
+    auto my_bind_5 = bind(make_arithmetics_link, a, b, c, 4, 5);
+    auto st_bind_5 = std::bind(make_arithmetics_link, a, b, c, 4, 5);
+    
+    cout << my_bind_5() << " " << st_bind_5() << endl;
+    
+    cout << a << b << c << endl;
 }
 

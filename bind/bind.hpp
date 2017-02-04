@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <utility>
 #include <tuple>
+#include <type_traits>
 
 template <size_t N>
 struct placeholder {};
@@ -35,8 +36,8 @@ struct bind_obj {
     }
     
 private:
-    std::tuple<Args...> args;
-    Func func;
+    std::tuple<typename std::decay<Args>::type...> args;
+    typename std::decay<Func>::type func;
     
     template <size_t... sequence>
     struct seq {};
@@ -52,7 +53,7 @@ private:
     };
     
     template <typename That_arg, typename ...New_args>
-    auto&& get_arg(That_arg&& that_arg, New_args& ...new_args) {
+    auto&& get_arg(That_arg& that_arg, New_args& ...new_args) {
         return that_arg;
     }
     
